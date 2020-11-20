@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import time
 from faceDetection import faceDetector
+from YOLOv3 import YOLO
 
 
 # cap = cv2.VideoCapture(0)
@@ -35,13 +36,13 @@ from faceDetection import faceDetector
 
 cap = cv2.VideoCapture(0)
 
-detector = faceDetector(method='haarCascades', gpu=1)
-
+Facedetector = faceDetector(method='haarCascades', gpu=1)
+objectDetector = YOLO(gpu=1)
 
 while True:
     ret, frame = cap.read()
-    frames, faces = detector.predict(frame)
-    print(faces)
-    cv2.imshow('image', frame)
+    frames, faces = Facedetector.predict(frame)
+    framess, boxes = objectDetector.predict(frame, painted=1)
+    cv2.imshow('image', np.hstack((frames, framess)))
     cv2.waitKey(1)
 

@@ -44,9 +44,10 @@ class YOLO:
         return colours, labels
 
     def predict(self, image, detectionFilter=-1, painted=1):
-        imageHeight, imageWidth = image.shape[:2]
+        imageNew = image.copy()
+        imageNewHeight, imageNewWidth = imageNew.shape[:2]
 
-        blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416), swapRB=True, crop=False)
+        blob = cv2.dnn.blobFromImage(imageNew, 1 / 255.0, (416, 416), swapRB=True, crop=False)
         self.net.setInput(blob)
         layerOutputs = self.net.forward(self.ln)
 
@@ -77,11 +78,11 @@ class YOLO:
                 # probability is greater than the minimum probability
                 if confidence > self.confidence:
                     # scale the bounding box coordinates back relative to
-                    # the size of the image, keeping in mind that YOLO
+                    # the size of the imageNew, keeping in mind that YOLO
                     # actually returns the center (x, y)-coordinates of
                     # the bounding box followed by the boxes' width and
                     # height
-                    box = detection[0:4] * np.array([imageWidth, imageHeight, imageWidth, imageHeight])
+                    box = detection[0:4] * np.array([imageNewWidth, imageNewHeight, imageNewWidth, imageNewHeight])
                     (centerX, centerY, width, height) = box.astype("int")
                     # use the center (x, y)-coordinates to derive the top
                     # and and left corner of the bounding box
@@ -105,7 +106,7 @@ class YOLO:
                 color = [int(c) for c in self.colour[classIDs[i]]]
                 text = "{}: {:.4f}".format(self.labels[int(classIDs[i])], confidences[i])
                 if painted:
-                    cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
-                    cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                    cv2.rectangle(imageNew, (x, y), (x + w, y + h), color, 2)
+                    cv2.putText(imageNew, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
                 detectionBoxes.append([x, y, w, h, classIDs[i]])
-        return image, detectionBoxes
+        return imageNew, detectionBoxes

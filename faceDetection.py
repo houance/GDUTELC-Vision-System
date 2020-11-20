@@ -83,13 +83,14 @@ class faceDetector:
         return faces
 
     def predict(self, frame):
+        frameNew = frame.copy()
         faces = ()
         if self.method == 'haarCascades' or self.method == 'lbpCascades':
-            faces = self.CascadesDetector(frame)
+            faces = self.CascadesDetector(frameNew)
         elif self.method == 'yuNet':
-            faces = self.yuNetDetection(frame)
+            faces = self.yuNetDetection(frameNew)
 
         for (x, y, w, h) in faces:
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255))
+            cv2.rectangle(frameNew, (x, y), (x + w, y + h), (0, 0, 255))
 
-        return frame, faces
+        return frameNew, faces
