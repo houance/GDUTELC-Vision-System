@@ -8,3 +8,6 @@
 out
 gen
 /yolo/
+!/.gitignore
+__pycache__/
+libFaceDetect/__pycache__/
