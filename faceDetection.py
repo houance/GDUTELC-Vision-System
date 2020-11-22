@@ -5,7 +5,7 @@ from utils import nms
 import time
 
 
-class faceDetector:
+class faceDetectorModel:
     def __init__(self, method='haarCascades', gpu=0, confidence=0.7, threshold=0.3):
         self.gpu = gpu
         self.method = method
@@ -73,7 +73,7 @@ class faceDetector:
         else:
             facess = ()
             return facess
-        faces = facess[:, :4]
+        faces = np.array(facess[:, :4])
         faces = faces.astype(np.int)
         faceStartXY = faces[:, :2]
         faceEndXY = faces[:, 2:4]
@@ -82,7 +82,7 @@ class faceDetector:
         # scores = facess[:, -1]
         return faces
 
-    def predict(self, frame):
+    def predict(self, frame, painted=1):
         frameNew = frame.copy()
         faces = ()
         if self.method == 'haarCascades' or self.method == 'lbpCascades':
@@ -90,7 +90,8 @@ class faceDetector:
         elif self.method == 'yuNet':
             faces = self.yuNetDetection(frameNew)
 
-        for (x, y, w, h) in faces:
-            cv2.rectangle(frameNew, (x, y), (x + w, y + h), (0, 0, 255))
+        if painted:
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frameNew, (x, y), (x + w, y + h), (0, 0, 255))
 
         return frameNew, faces
