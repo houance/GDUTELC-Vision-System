@@ -8,12 +8,12 @@ import dlib
 
 # cap = cv2.VideoCapture(0)
 # start = time.time()
-# detector = faceDetector(method='haarCascades', gpu=1)
+# detector = faceDetectorModel(method='lbpCascades', gpu=1)
 # print(time.time() - start)
 #
 # while True:
 #     ret, frame = cap.read()
-#     frames = detector.predict(frame)
+#     frames, boxes = detector.predict(frame)
 #     cv2.imshow('iamge', frames)
 #     cv2.waitKey(1)
 

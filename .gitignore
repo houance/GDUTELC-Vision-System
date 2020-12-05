@@ -11,3 +11,4 @@ gen
 !/.gitignore
 __pycache__/
 libFaceDetect/__pycache__/
+!/test.py
