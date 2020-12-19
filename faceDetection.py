@@ -60,6 +60,7 @@ class faceDetectorModel:
             frameWidth, frameHeight = frame.shape[:2]
             self.pb = PriorBox(input_shape=(640, 480), output_shape=(frameHeight, frameWidth))
             self.init = 1
+
         blob = cv2.dnn.blobFromImage(frame, size=(640, 480))
         outputNames = ['loc', 'conf', 'iou']
         self.detector.setInput(blob)

@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 
 class YOLO:
@@ -67,11 +68,11 @@ class YOLO:
 
                 if isinstance(detectionFilter, list):
                     filterList = set(detectionFilter)
-                    if classID+1 not in filterList:
+                    if classID + 1 not in filterList:
                         continue
 
                 elif detectionFilter != -1:
-                    if classID != detectionFilter-1:
+                    if classID != detectionFilter - 1:
                         continue
 
                 # filter out weak predictions by ensuring the detected

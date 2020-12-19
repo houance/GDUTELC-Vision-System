@@ -12,6 +12,6 @@ gen
 __pycache__/
 libFaceDetect/__pycache__/
 !/test.py
-!/FlaskTest.py
-FlaskTest.py
+!/FlaskServer.py
+FlaskServer.py
 test.py
